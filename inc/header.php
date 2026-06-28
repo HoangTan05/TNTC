@@ -1,4 +1,5 @@
 <?php
+// Kiểm tra và bật Session trước khi có bất kỳ dòng HTML nào xuất hiện
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -31,22 +32,32 @@ include_once(__DIR__ . '/config.php');
         <a href="<?= $base_url ?>/dn_dk.php">Đăng nhập / Đăng ký</a>
       </div>
     <?php endif; ?>
-</div>
+  </div>
 </header>
+
 <script>
   const dropdownBtn = document.getElementById("dropdownBtn");
   const dropdownMenu = document.getElementById("dropdownMenu");
-  dropdownBtn?.addEventListener("click", () => {
-    dropdownMenu.classList.toggle("show");
-  });
-  // Ẩn dropdown khi click bên ngoài
-  window.addEventListener("click", function(e) {
-    if (!dropdownBtn.contains(e.target)) {
-      dropdownMenu.classList.remove("show");
-    }
-  });
+  
+  if (dropdownBtn && dropdownMenu) {
+    dropdownBtn.addEventListener("click", (e) => {
+      e.stopPropagation(); // Ngăn sự kiện click lan ra ngoài window
+      dropdownMenu.classList.toggle("show");
+    });
+    
+    // Ẩn dropdown khi click bên ngoài
+    window.addEventListener("click", function(e) {
+      if (!dropdownBtn.contains(e.target)) {
+        dropdownMenu.classList.remove("show");
+      }
+    });
+  }
 </script>
+
 <style>
+  .dropdown-menu {
+    display: none;
+  }
   .dropdown-menu.show {
     display: block;
   }
