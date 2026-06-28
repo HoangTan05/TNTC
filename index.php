@@ -1,3 +1,9 @@
+<?php
+// BẮT BUỘC: Đặt ở dòng số 1 để kích hoạt Session trước khi trình duyệt đọc HTML
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
