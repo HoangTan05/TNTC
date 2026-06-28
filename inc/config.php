@@ -13,11 +13,11 @@ if (getenv('DB_HOST')) {
     $db_port = $_ENV['DB_PORT'];
 } else {
     // THÔNG SỐ PUBLIC (Dùng cho Render và Navicat kết nối từ ngoài vào)
-    $db_host = 'viaduct.proxy.rlwy.net'; // Dùng viaduct thay vì reseau
-    $db_user = 'root';
-    $db_pass = 'LsGwcFSRVjZiWZebxyAZuKvWeITYQLzE'; 
-    $db_name = 'railway';
-    $db_port = 14125; // Cổng công khai chuẩn từ ảnh đầu tiên của bạn
+$db_host = 'reseau.proxy.rlwy.net';
+$db_user = 'root';
+$db_pass = 'LsGWcFSRVjZiWZebxyAZuKvWeITYQLzE';
+$db_name = 'railway';
+$db_port = 21925;
 }
 
 // Bật báo lỗi chuẩn cho MySQLi
