@@ -1,34 +1,29 @@
 <?php
-if (getenv('DB_HOST')) {
-    $db_host = getenv('DB_HOST');
-    $db_user = getenv('DB_USER');
-    $db_pass = getenv('DB_PASSWORD');
-    $db_name = getenv('DB_NAME');
-    $db_port = getenv('DB_PORT');
-} elseif (isset($_ENV['DB_HOST'])) {
-    $db_host = $_ENV['DB_HOST'];
-    $db_user = $_ENV['DB_USER'];
-    $db_pass = $_ENV['DB_PASSWORD'];
-    $db_name = $_ENV['DB_NAME'];
-    $db_port = $_ENV['DB_PORT'];
-} else {
-    // THÔNG SỐ PUBLIC (Dùng cho Render và Navicat kết nối từ ngoài vào)
-$db_host = 'reseau.proxy.rlwy.net';
-$db_user = 'root';
-$db_pass = 'LsGWcFSRVjZiWZebxyAZuKvWeITYQLzE';
-$db_name = 'railway';
-$db_port = 21925;
-}
-
-// Bật báo lỗi chuẩn cho MySQLi
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+// Ưu tiên lấy từ Environment Variables
+$db_host = getenv('DB_HOST') ?: 'reseau.proxy.rlwy.net';
+$db_user = getenv('DB_USER') ?: 'root';
+$db_pass = getenv('DB_PASSWORD') ?: 'LsGWcFSRVjZiWZebxyAZuKvWeITYQLzE';
+$db_name = getenv('DB_NAME') ?: 'railway';
+$db_port = getenv('DB_PORT') ?: 21925;
+
 try {
-    $conn = new mysqli($db_host, $db_user, $db_pass, $db_name, $db_port);
+    $conn = new mysqli(
+        $db_host,
+        $db_user,
+        $db_pass,
+        $db_name,
+        (int)$db_port
+    );
+
     $conn->set_charset("utf8mb4");
+
 } catch (mysqli_sql_exception $e) {
-    die("Lỗi kết nối Database rồi: " . $e->getMessage());
+    die("Lỗi kết nối Database: " . $e->getMessage());
 }
 
-$base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'];
+$base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
+    ? "https"
+    : "http") . "://" . $_SERVER['HTTP_HOST'];
 ?>
